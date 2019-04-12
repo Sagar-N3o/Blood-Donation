@@ -20,7 +20,10 @@ namespace BloodDonation.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            List<Blood> bloods = context.Bloods.ToList();
+            List<BloodViewModel> model = Mapper.Map<List<Blood>, List<BloodViewModel>>(bloods);
+
+            return View(model);
         }
 
         #region Donate Form
@@ -55,7 +58,7 @@ namespace BloodDonation.Controllers
                     context.Donors.Add(donor);
                     context.SaveChanges();
 
-                    return RedirectToAction("DonorList", "Home");
+                    return RedirectToAction("AllDonor", "Home");
                 }
                 else
                 {
@@ -71,7 +74,7 @@ namespace BloodDonation.Controllers
         #endregion
 
         #region Donors List
-        public ActionResult DonorList()
+        public ActionResult AllDonor()
         {
             List<Donor> donors = context.Donors.ToList();
             List<DonorListViewModel> model = new List<DonorListViewModel>();
@@ -88,7 +91,29 @@ namespace BloodDonation.Controllers
 
             return View(model);
         }
+
+        public ActionResult DonorList(int id)
+        {
+            List<Donor> donors = context.Donors
+                                    .Where(d => d.BloodId == id)
+                                    .ToList();
+
+            List<DonorListViewModel> model = new List<DonorListViewModel>();
+
+            foreach (Donor d in donors)
+            {
+                DonorListViewModel donorListViewModel = new DonorListViewModel()
+                {
+                    User = Mapper.Map<User, UserViewModel>(d.User),
+                    Blood = Mapper.Map<Blood, BloodViewModel>(d.Blood)
+                };
+                model.Add(donorListViewModel);
+            }
+
+            return View(model);
+        }
         #endregion
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
