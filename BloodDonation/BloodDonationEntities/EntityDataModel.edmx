@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TestBloodModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bloods">
+          <Key>
+            <PropertyRef Name="BloodId" />
+          </Key>
+          <Property Name="BloodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BloodGroupTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Donors">
+          <Key>
+            <PropertyRef Name="DonorId" />
+          </Key>
+          <Property Name="DonorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BloodId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hospitals">
+          <Key>
+            <PropertyRef Name="HospitalId" />
+          </Key>
+          <Property Name="HospitalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="ContectNumber" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="Address" Type="varchar(max)" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BloodId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Donors_Bloods">
+          <End Role="Bloods" Type="Self.Bloods" Multiplicity="1" />
+          <End Role="Donors" Type="Self.Donors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bloods">
+              <PropertyRef Name="BloodId" />
+            </Principal>
+            <Dependent Role="Donors">
+              <PropertyRef Name="BloodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donors_Donors">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Donors" Type="Self.Donors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Donors">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Bloods">
+          <End Role="Bloods" Type="Self.Bloods" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bloods">
+              <PropertyRef Name="BloodId" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="BloodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestBloodModelStoreContainer">
+          <EntitySet Name="Bloods" EntityType="Self.Bloods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Donors" EntityType="Self.Donors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hospitals" EntityType="Self.Hospitals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Donors_Bloods" Association="Self.FK_Donors_Bloods">
+            <End Role="Bloods" EntitySet="Bloods" />
+            <End Role="Donors" EntitySet="Donors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donors_Donors" Association="Self.FK_Donors_Donors">
+            <End Role="User" EntitySet="User" />
+            <End Role="Donors" EntitySet="Donors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Bloods" Association="Self.FK_Requests_Bloods">
+            <End Role="Bloods" EntitySet="Bloods" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_User" Association="Self.FK_Requests_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestBloodModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Blood">
+          <Key>
+            <PropertyRef Name="BloodId" />
+          </Key>
+          <Property Name="BloodId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BloodGroupTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Donors" Relationship="Self.FK_Donors_Bloods" FromRole="Bloods" ToRole="Donors" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK_Requests_Bloods" FromRole="Bloods" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="Donor">
+          <Key>
+            <PropertyRef Name="DonorId" />
+          </Key>
+          <Property Name="DonorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BloodId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Blood" Relationship="Self.FK_Donors_Bloods" FromRole="Donors" ToRole="Bloods" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Donors_Donors" FromRole="Donors" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Hospital">
+          <Key>
+            <PropertyRef Name="HospitalId" />
+          </Key>
+          <Property Name="HospitalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ContectNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BloodId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Blood" Relationship="Self.FK_Requests_Bloods" FromRole="Requests" ToRole="Bloods" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Requests_User" FromRole="Requests" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Donors" Relationship="Self.FK_Donors_Donors" FromRole="User" ToRole="Donors" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK_Requests_User" FromRole="User" ToRole="Requests" />
+        </EntityType>
+        <Association Name="FK_Donors_Bloods">
+          <End Role="Bloods" Type="Self.Blood" Multiplicity="1" />
+          <End Role="Donors" Type="Self.Donor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bloods">
+              <PropertyRef Name="BloodId" />
+            </Principal>
+            <Dependent Role="Donors">
+              <PropertyRef Name="BloodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Bloods">
+          <End Role="Bloods" Type="Self.Blood" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bloods">
+              <PropertyRef Name="BloodId" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="BloodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donors_Donors">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Donors" Type="Self.Donor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Donors">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestBloodEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bloods" EntityType="Self.Blood" />
+          <EntitySet Name="Donors" EntityType="Self.Donor" />
+          <EntitySet Name="Hospitals" EntityType="Self.Hospital" />
+          <EntitySet Name="Requests" EntityType="Self.Request" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Donors_Bloods" Association="Self.FK_Donors_Bloods">
+            <End Role="Bloods" EntitySet="Bloods" />
+            <End Role="Donors" EntitySet="Donors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Bloods" Association="Self.FK_Requests_Bloods">
+            <End Role="Bloods" EntitySet="Bloods" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donors_Donors" Association="Self.FK_Donors_Donors">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Donors" EntitySet="Donors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_User" Association="Self.FK_Requests_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestBloodModelStoreContainer" CdmEntityContainer="TestBloodEntities">
+          <EntitySetMapping Name="Bloods">
+            <EntityTypeMapping TypeName="TestBloodModel.Blood">
+              <MappingFragment StoreEntitySet="Bloods">
+                <ScalarProperty Name="BloodId" ColumnName="BloodId" />
+                <ScalarProperty Name="BloodGroupTitle" ColumnName="BloodGroupTitle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donors">
+            <EntityTypeMapping TypeName="TestBloodModel.Donor">
+              <MappingFragment StoreEntitySet="Donors">
+                <ScalarProperty Name="DonorId" ColumnName="DonorId" />
+                <ScalarProperty Name="BloodId" ColumnName="BloodId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hospitals">
+            <EntityTypeMapping TypeName="TestBloodModel.Hospital">
+              <MappingFragment StoreEntitySet="Hospitals">
+                <ScalarProperty Name="HospitalId" ColumnName="HospitalId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ContectNumber" ColumnName="ContectNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requests">
+            <EntityTypeMapping TypeName="TestBloodModel.Request">
+              <MappingFragment StoreEntitySet="Requests">
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="BloodId" ColumnName="BloodId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TestBloodModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BloodDonation.Models.DonorListViewModel>
+
+@{
+    ViewBag.Title = "DonorList";
+}
+
+<h2>DonorList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>First name</th>
+        <th>Blood Group</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.User.FirstName</td>
+            <td>@item.Blood.BloodGroupTitle</td>
+
+            @*
+                You can Display all information required here
+                for user related info: @item.User.[Prop name] e.g., @item.User.Email
+                for blood related info: @item.Blood.[Prop name] e.g., @item.User.BloogGroupTitle
+            *@
+        </tr>
+    }
+
+</table>

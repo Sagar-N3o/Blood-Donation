@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5b0f6cf19c454461a449979b0bb75bac" Name="Diagram1">
+        <EntityTypeShape EntityType="TestBloodModel.Blood" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestBloodModel.Donor" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestBloodModel.Hospital" Width="1.5" PointX="5.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestBloodModel.Request" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestBloodModel.User" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <AssociationConnector Association="TestBloodModel.FK_Donors_Bloods" ManuallyRouted="false" />
+        <AssociationConnector Association="TestBloodModel.FK_Requests_Bloods" ManuallyRouted="false" />
+        <AssociationConnector Association="TestBloodModel.FK_Donors_Donors" ManuallyRouted="false" />
+        <AssociationConnector Association="TestBloodModel.FK_Requests_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
