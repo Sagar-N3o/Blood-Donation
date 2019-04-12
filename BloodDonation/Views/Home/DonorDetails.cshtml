@@ -1,0 +1,44 @@
+﻿@model BloodDonation.Models.DonorViewModel
+
+@{
+    ViewBag.Title = "DonorDetails";
+}
+
+<h2>Donor Details</h2>
+
+<div>
+    <h4>
+        Blood Info
+    </h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Blood.BloodGroupTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Blood.BloodGroupTitle)
+        </dd>
+    </dl>
+    <hr />
+    <h4>
+        User Info
+    </h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "DonorList", new { id = Model.Blood.BloodId })
+</p>

@@ -5,8 +5,10 @@ using System.Web;
 
 namespace BloodDonation.Models
 {
-    public class DonorListViewModel
+    public class DonorViewModel
     {
+        public int DonorId { get; set; }
+
         public UserViewModel User { get; set; }
 
         public BloodViewModel Blood { get; set; }

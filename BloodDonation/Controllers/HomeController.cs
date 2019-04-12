@@ -63,6 +63,7 @@ namespace BloodDonation.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Either email address or password is incorrect.");
+                    model.Blood = context.Bloods.ToList();
                     return View(model);
                 }
             }
@@ -77,11 +78,11 @@ namespace BloodDonation.Controllers
         public ActionResult AllDonor()
         {
             List<Donor> donors = context.Donors.ToList();
-            List<DonorListViewModel> model = new List<DonorListViewModel>();
+            List<DonorViewModel> model = new List<DonorViewModel>();
 
-            foreach(Donor d in donors)
+            foreach (Donor d in donors)
             {
-                DonorListViewModel donorListViewModel = new DonorListViewModel()
+                DonorViewModel donorListViewModel = new DonorViewModel()
                 {
                     User = Mapper.Map<User, UserViewModel>(d.User),
                     Blood = Mapper.Map<Blood, BloodViewModel>(d.Blood)
@@ -98,17 +99,36 @@ namespace BloodDonation.Controllers
                                     .Where(d => d.BloodId == id)
                                     .ToList();
 
-            List<DonorListViewModel> model = new List<DonorListViewModel>();
+            List<DonorViewModel> model = new List<DonorViewModel>();
 
             foreach (Donor d in donors)
             {
-                DonorListViewModel donorListViewModel = new DonorListViewModel()
+                DonorViewModel donorListViewModel = new DonorViewModel()
                 {
+                    DonorId = d.DonorId,
                     User = Mapper.Map<User, UserViewModel>(d.User),
                     Blood = Mapper.Map<Blood, BloodViewModel>(d.Blood)
                 };
                 model.Add(donorListViewModel);
             }
+
+            return View(model);
+        }
+        #endregion
+
+        #region Donor Details
+        public ActionResult DonorDetails(int id)
+        {
+            Donor donor = context.Donors
+                .Where(d => d.DonorId == id)
+                .FirstOrDefault();
+
+            DonorViewModel model = new DonorViewModel()
+            {
+                DonorId = donor.DonorId,
+                Blood = Mapper.Map<Blood, BloodViewModel>(donor.Blood),
+                User = Mapper.Map<User, UserViewModel>(donor.User)
+            };
 
             return View(model);
         }
