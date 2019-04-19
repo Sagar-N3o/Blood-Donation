@@ -6,30 +6,57 @@
 
 <h2>Index</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.BloodId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BloodGroupTitle)
-        </th>
-        <th>Actions</th>
-    </tr>
-
-    @foreach (var item in Model)
+@if (Session["logged_in"] != null)
+{
+    if (Session["logged_in"].ToString() == "true")
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BloodId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BloodGroupTitle)
-            </td>
-            <td>
-                @Html.ActionLink("View Donors", "DonorList", new { id = item.BloodId })
-            </td>
-        </tr>
-    }
+        <table class="table">
+            <tr>
+                @*
+                    
+                    In case you have something to display if role is Admin =>
+                    @if(Session["Role"] != null)
+                    {
+                        if(Session["Role"].toString() == "Admin")
+                        {
+                            ... your content to display
+                        }
+                    }
+                    
+                *@
+                <th>
+                    @Html.DisplayNameFor(model => model.BloodId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BloodGroupTitle)
+                </th>
+                <th>Actions</th>
+            </tr>
 
-</table>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BloodId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BloodGroupTitle)
+                    </td>
+                    <td>
+                        @Html.ActionLink("View Donors", "DonorList", new { id = item.BloodId })
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <h2>You are not authenticated.</h2>
+        @Html.ActionLink("Login", "Login", "Account")
+    }
+}
+else
+{
+    <h2>You are not authenticated.</h2>
+    @Html.ActionLink("Login", "Login", "Account")
+}

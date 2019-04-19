@@ -6,52 +6,67 @@
 
 <h2>Doante</h2>
 
-
-@using (Html.BeginForm())
+@if (Session["logged_in"] != null)
 {
-    @Html.AntiForgeryToken()
+    if (Session["logged_in"].ToString() == "true")
+    {
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>DonateViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-horizontal">
+                <h4>DonateViewModel</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.User.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.User.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.User.Email, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.User.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.User.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.User.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.User.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2"> Blood Group</label>
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.BloodId, new SelectList(Model.Blood, "BloodId", "BloodGroupTitle"), "- Select Blood Group -", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BloodId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("Register First", "Register", "Account")
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.User.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.User.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.User.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2"> Blood Group</label>
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.BloodId, new SelectList(Model.Blood, "BloodId", "BloodGroupTitle"), "- Select Blood Group -", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.BloodId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("Register First", "Register", "Account")
-            </div>
-        </div>
-    </div>
+        }
+    }
+    else
+    {
+        <h2>You are not authenticated.</h2>
+        @Html.ActionLink("Login", "Login", "Account")
+    }
+}
+else
+{
+    <h2>You are not authenticated.</h2>
+    @Html.ActionLink("Login", "Login", "Account")
 }
 
 @section Scripts {

@@ -56,6 +56,13 @@ namespace BloodDonation.Controllers
             {
                 if(context.Users.Where(u => u.Email == model.Email && u.Password == model.Password).Count() > 0)
                 {
+                    Session["logged_in"] = "true";
+
+                    // If you need role base authentication => 
+                    // Session["Role"] = .....
+                    // Access this role session variable in html view and hide/display content as per your requirement.
+                    // for reference see Index.cshtml file in Views/Home folder
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -69,6 +76,15 @@ namespace BloodDonation.Controllers
                 ModelState.AddModelError("Error", "Invalid Cradiation");
                 return View(model);
             }
+        }
+        #endregion
+
+        #region Logout
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.Abandon();
+            return RedirectToAction("Login", "Account");
         }
         #endregion
     }

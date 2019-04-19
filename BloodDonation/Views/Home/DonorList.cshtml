@@ -4,28 +4,42 @@
     ViewBag.Title = "DonorList";
 }
 
-<h2>DonorList</h2>
+<h2>Donor List</h2>
 
-<table class="table">
-    <tr>
-        <th>First name</th>
-        <th>Blood Group</th>
-        <th>Actions</th>
-    </tr>
-
-    @foreach (var item in Model)
+@if (Session["logged_in"] != null)
+{
+    if (Session["logged_in"].ToString() == "true")
     {
-        <tr>
-            <td>@item.User.FirstName</td>
-            <td>@item.Blood.BloodGroupTitle</td>
-            <td>@Html.ActionLink("Full Details", "DonorDetails", new { id = item.DonorId })</td>
+        <table class="table">
+            <tr>
+                <th>First name</th>
+                <th>Blood Group</th>
+                <th>Actions</th>
+            </tr>
 
-            @*
-                You can Display all information required here
-                for user related info: @item.User.[Prop name] e.g., @item.User.Email
-                for blood related info: @item.Blood.[Prop name] e.g., @item.User.BloogGroupTitle
-            *@
-        </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.User.FirstName</td>
+                    <td>@item.Blood.BloodGroupTitle</td>
+                    <td>@Html.ActionLink("Full Details", "DonorDetails", new { id = item.DonorId })</td>
+                    @*
+                        You can Display all information required here
+                        for user related info: @item.User.[Prop name] e.g., @item.User.Email
+                        for blood related info: @item.Blood.[Prop name] e.g., @item.User.BloogGroupTitle
+                    *@
+                </tr>
+            }
+        </table>
     }
-
-</table>
+    else
+    {
+        <h2>You are not authenticated.</h2>
+        @Html.ActionLink("Login", "Login", "Account")
+    }
+}
+else
+{
+    <h2>You are not authenticated.</h2>
+    @Html.ActionLink("Login", "Login", "Account")
+}

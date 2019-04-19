@@ -84,6 +84,7 @@ namespace BloodDonation.Controllers
             {
                 DonorViewModel donorListViewModel = new DonorViewModel()
                 {
+                    DonorId = d.DonorId,
                     User = Mapper.Map<User, UserViewModel>(d.User),
                     Blood = Mapper.Map<Blood, BloodViewModel>(d.Blood)
                 };
